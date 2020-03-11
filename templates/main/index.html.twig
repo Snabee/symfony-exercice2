@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage - Series et categories{% endblock %}
+
+{% block body %}
+    <div class='container'>
+        <div class="m-5">
+            <h2>Section Séries</h2>
+            {% if series|length == 0 %}
+                <p>Il n'y a aucune série enregistré</p>
+            {% else %}
+                <p>Il y a {{series|length}} séries dans la BDD</p>
+            {% endif %}
+
+            <a href="series"><button type="button" class="btn btn-primary">Séries</button><a>
+        </div>
+
+        <hr>
+
+        <div class="m-5">
+            <h2>Section Categories</h2>
+            <p>Il y a {{categories|length}} categories.</p>
+            <ul class="list-group">
+                {% for categorie in categories %}
+                    <a href="categorie/{{ categorie.id }} "><li class="list-group-item disabled"> {{ categorie.nom }} : {{ categorie.series|length }} séries</li><a>
+                {% endfor %}
+            </ul>
+
+            <p>Ajouter une catégorie :</p>
+            {{form(addCategorie)}}
+        </div>
+    </div>
+{% endblock %}

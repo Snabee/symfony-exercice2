@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Séries{% endblock %}
+
+{% block body %}
+    <div class='container'>
+        <div class="m-5">
+            <h2>Liste séries<h2>
+            {% if series|length == 0%}
+                <p>Il n'y a pas de série</p>
+                
+            {% else %}
+                <p>Il y a {{series|length}} séries</p>
+            {% endif %}
+
+            <ul class="list-group">
+                {% for serie in series %}
+                    <div class="card text-center"> 
+                        <div class="card-body text-center">
+                            <h3 class="card-title">{{serie.nom}}</h3>
+                            <p class="card-text">Début: {{serie.debut | date('Y')}}</p>
+
+                            {% if serie.fin == NULL %}
+                                <p>Série en cours<p>
+                            {% else %}
+                                <p>Fin : {{serie.fin | date('Y')}}</p>
+                            {% endif %}
+
+                            <p>{{serie.saisons}} saisons </p>
+                            
+
+                            <a href="serie/fiche/{{serie.id}}" class="btn btn-primary">Fiche Série</a>
+                        </div>            
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <hr>
+
+        <div class="m-5">
+            <h2>Ajouter une série</h2>
+            {{form_start(addSeries)}}
+            {{form_rest(addSeries)}}
+                <select name="categorie">
+                    {% for categorie in categories %}
+                        <option value='{{categorie.id}}'>{{categorie.nom}}</option>
+                    {% endfor %}
+                </select><br>
+            <button type="submit" class="btn btn-primary m-2">Envoyer</button>
+            {{form_end(addSeries)}}
+        </div>
+    </div>
+{% endblock %}

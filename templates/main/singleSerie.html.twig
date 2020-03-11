@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Series{% endblock %}
+
+{% block body %}
+    <div class='container'>
+        <div class='jumbotron'>
+            <div class="card text-center"> 
+                <div class="card-body">
+                    <h5 class="card-title">{{serie.nom}}</h5>
+                    <p class="card-text">Debut : {{serie.anneeDebut | date('Y')}}</p>
+                        {% if serie.anneeFin == NULL %}
+                            <p>Série en cours<p>
+                        {% else %}
+                            <p>Fin : {{serie.anneeFin | date('Y')}}</p>
+                        {% endif %}
+                        <p>{{serie.saisons}} saisons </p>
+
+                        {% if serie.affiche is not null %}
+                            <img src="{{ asset('assets/images/' ~ serie.affiche) }}" style="height:18rem"/>
+                        {% endif %}
+                </div>            
+            </div>
+        </div>
+
+        <div>
+            <h2>Modifier la série {{serie.nom}}</h2>
+            {{form_start(updateSerie)}}
+            {{form_rest(updateSerie)}}
+            <select name="categorie">
+                    {% for categorie in categories %}
+                    <option value='{{categorie.id}}'>{{categorie.nom}}</option>
+                    {% endfor %}
+            </select>
+            <a href="{{path('series')}}"><button type="submit" class="btn btn-primary">Modifier</button></a>
+            {{form_end(updateSerie)}}
+            <a href="{{path("removeSerie", {id: serie.id})}}"><button class="btn btn-danger">Supprimer</button></a>
+        </div>
+    </div>
+{% endblock %}
